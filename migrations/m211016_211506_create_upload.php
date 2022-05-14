@@ -15,7 +15,7 @@ class m211016_211506_create_upload extends Migration
         $tableOptions = null;
 
         if ($this->db->driverName === 'mysql') {
-            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
+            $tableOptions = 'CHARACTER SET utf8mb4 COLLATE utf8mb4_bin ENGINE=InnoDB';
         }
 
         $this->createTable(
