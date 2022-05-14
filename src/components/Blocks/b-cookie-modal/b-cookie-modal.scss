@@ -1,0 +1,35 @@
+.b-cookie-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #00000054;
+  transition: opacity 0.3s ease;
+}
+
+.b-cookie-modal-wrapper {
+  position: absolute;
+  top: 50%;
+  margin-left: 50%;
+  z-index: 1000;
+  max-width: 500px;
+  background-color: #fff;
+  border-radius: 4px;
+  transform: translate(-50%, -50%);
+  padding: 20px 20px 10px 20px;
+}
+
+.b-cookie-modal-enter,
+.b-cookie-modal-leave-active {
+  opacity: 0;
+}
+
+.b-cookie-modal-enter,
+.b-cookie-modal-leave-active {
+  transform: scale(1.1);
+}
+
+.b-cookie-modal__buttons {
+  padding: 0 0 10px 0;
+}

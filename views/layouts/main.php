@@ -126,6 +126,8 @@ $footerLink = json_encode([
 
                     <b-navbar :items='<?= json_encode($menuItems) ?>'></b-navbar>
 
+                    <b-cookie-modal>123</b-cookie-modal>
+
                     <b-breadcrumbs :links='<?= json_encode($breadcrumbs) ?>' /></b-breadcrumbs>
 
                     <b-content><?= $content ?></b-content>
