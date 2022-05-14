@@ -55,6 +55,12 @@ Setup DB settings in "config/db.php" and run migrations.
 php yii migrate
 ```
 
+### Run npm for see possible options
+
+```
+npm run
+```
+
 ## Apply RBAC
 
 ```
