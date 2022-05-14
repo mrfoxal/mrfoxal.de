@@ -1,0 +1,23 @@
+.b-footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  color: #fff;
+  padding: 20px 0;
+}
+
+.b-footer__menu {
+  display: flex;
+  gap: 15px;
+}
+
+.b-footer__menu-item {
+  text-decoration: underline;
+  color: $primar-color;
+
+  &:hover {
+    text-decoration: none;
+  }
+}

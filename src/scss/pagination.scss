@@ -1,0 +1,19 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+    background: $primar-color;
+    border-color: $primar-color;
+}
+
+.pagination > li > a,
+.pagination > li > span {
+    color: $secondary-color;
+}

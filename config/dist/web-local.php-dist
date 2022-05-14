@@ -1,0 +1,41 @@
+<?php
+
+use yii\helpers\ArrayHelper;
+
+$params = ArrayHelper::merge(
+    require(__DIR__ . '/params.php'),
+    require(__DIR__ . '/params-local.php')
+);
+
+$config = [
+    'id' => 'app-local',
+    'bootstrap' => [
+        'debug',
+        'gii'
+    ],
+    'components' => [
+        'mailer' => [
+            'useFileTransport' => true,
+        ],
+        'log' => [
+            'traceLevel' => 3,
+        ],
+        'db' => require(__DIR__ . '/db-local.php'),
+        'urlManager' => [
+            'baseUrl' => 'http://mrfoxal.local:8025/',
+        ],
+    ],
+    'modules' => [
+        'debug' => [
+            'class' => 'yii\debug\Module',
+            'allowedIPs' => ['127.0.0.1', '::1'],
+        ],
+        'gii' => [
+            'class' => 'yii\gii\Module',
+            'allowedIPs' => ['127.0.0.1', '::1'],
+        ],
+    ],
+    'params' => $params,
+];
+
+return $config;

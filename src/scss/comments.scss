@@ -1,0 +1,82 @@
+.restore-comment-form {
+  color: $secondary-color;
+  margin-bottom: 20px; 
+  > span {
+    border-bottom: 1px dashed $secondary-color;
+    cursor: pointer;
+    font-size: large;
+  }
+}
+
+.comments {
+  a {
+    color: $primar-color;
+  }
+}
+
+.comment-body {
+  background: #F5F5F5;
+  border-radius: 5px;
+  padding: 20px 20px 20px;
+}
+
+.comment.h-entry {
+  clear: both;
+  padding: 10px 0 0 115px;
+}
+
+.comment-user-photo {
+  float: left;
+  padding: 5px;
+  margin-left: -115px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+ul.comments .comment-arrow {
+  border-bottom: 15px solid transparent;
+  border-right: 15px solid #F4F4F4;
+  border-top: 15px solid transparent;
+  height: 0;
+  left: -15px;
+  position: absolute;
+  top: 28px;
+  width: 0;
+}
+
+.comment-permament-link {
+  float: right;
+}
+
+.comment-username {
+  border-bottom: 1px solid #DDD;
+  margin: 5px 0;
+  padding: 0 0 3px;
+}
+
+.comment-actions .fa {
+  padding-left: 10px;
+  padding-right: 4px;
+}
+
+.comment-index {
+  background: #FFF;
+  padding: 0 20px 0 20px;
+  border-radius: 10px;
+  border: solid 1px #fff;
+}
+
+// TODO: refactor this
+@media screen and (max-width: 599px) {
+
+  .comment-user-photo {
+    display: none;
+  }
+
+  .comment.h-entry {
+    padding: 0;
+    padding-bottom: 20px;
+  }
+
+}

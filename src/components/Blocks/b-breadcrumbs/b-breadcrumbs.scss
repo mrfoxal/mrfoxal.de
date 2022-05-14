@@ -1,0 +1,21 @@
+.b-breadcrumbs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px 0;
+  color: #fff;
+}
+
+.b-breadcrumbs__item {
+  text-decoration: none;
+  color: $primar-color;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.b-breadcrumbs__item--no-link {
+  color: $primar-color;
+  text-decoration: none;
+}

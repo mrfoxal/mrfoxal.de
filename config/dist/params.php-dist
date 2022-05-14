@@ -1,0 +1,26 @@
+<?php
+
+// \Yii::$app->params['adminEmail'];
+
+return [
+    'adminEmail'                    => '',
+    'noreplyEmail'                  => '',
+    'user.passwordResetTokenExpire' => 3600,
+    'user.rememberMeDuration'       => 3600 * 24 * 30,
+    /**
+     * Google reCaptcha ID
+     * https://www.google.com/recaptcha/admin
+     */
+    'reCAPTCHA.siteKey'             => '',
+    'reCAPTCHA.secretKey'           => '',
+    'post' => [
+        'pageSize' => 6,
+    ],
+    'site' => [
+        'author'      => '',
+        'name'        => '',
+        'url'         => 'https://mrfoxal.de/',
+        'description' => '',
+        'twitter'     => '',
+    ],
+];

@@ -1,0 +1,26 @@
+.b-page {
+  display: grid;
+  padding: 0 20px 20px 20px;
+  background: #fff;
+  border-radius: 10px;
+}
+
+.b-page--transparent {
+  background: none;
+  border-radius: 0;
+  border: none;
+}
+
+.b-page--list-view {
+  padding: 20px;
+}
+
+.b-page--list-view::v-deep .list-view {
+  display: grid;
+  grid-template-columns: minmax(0,1fr);
+  gap: 20px;
+
+  @include breakpoint('s') {
+    grid-template-columns: repeat(2,1fr);
+  }
+}

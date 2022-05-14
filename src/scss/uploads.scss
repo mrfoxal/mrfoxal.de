@@ -1,0 +1,13 @@
+.upload-images {
+  padding: 20px 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.upload-images > img {
+  max-width: 100%;
+  max-height: 80px;
+  border: solid 1px #DDD;
+  padding: 7px;
+}

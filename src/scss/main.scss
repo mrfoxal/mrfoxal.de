@@ -1,0 +1,39 @@
+body {
+  background-color: $bg-color;
+  font-family: Arial,sans-serif;
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+.main-wrapper {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+pre {
+  background: none;
+  border: none;
+}
+
+.hint-block {
+  color: #999;
+}
+
+.CodeMirror {
+  margin: 10px 0;
+  border: 1px solid #DDD;
+  padding: 20px;
+}
+
+.CodeMirror-buttonsPanel {
+  display: flex;
+  gap: 5px
+}
+
+.captcha .form-control {
+  height: auto;
+  padding: 0;
+  background-color: inherit;
+  border: none;
+  border-radius: 0;
+}
