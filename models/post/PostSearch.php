@@ -5,6 +5,7 @@ namespace app\models\post;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\enums\PostStatus;
+use app\enums\YesNo;
 
 /**
  * PostSearch represents the model behind the search form about `app\models\post\Post`.
@@ -70,7 +71,7 @@ class PostSearch extends Post
         }
 
         $query->andFilterWhere(['status_id' => PostStatus::STATUS_PUBLIC]);
-
+        $query->andFilterWhere(['show_post_details' => YesNo::YES]);
         $query->andFilterWhere(['like', 'title', $this->title]);
 
         // Filter by tag id
