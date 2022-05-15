@@ -11,16 +11,16 @@
   border: none;
 }
 
-.b-page--list-view {
-  padding: 20px;
+.b-page:not(.b-page--transparent) {
+  margin: 20px;
 }
 
-.b-page--list-view::v-deep .list-view {
+.b-page--list-view :deep(.list-view) {
   display: grid;
   grid-template-columns: minmax(0,1fr);
-  gap: 20px;
-
+  
   @include breakpoint('s') {
+    gap: 20px;
     grid-template-columns: repeat(2,1fr);
   }
 }

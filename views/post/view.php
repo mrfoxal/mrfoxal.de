@@ -86,8 +86,10 @@ $post = json_encode($post);
 
 ?>
 
-<m-list-view-item :item='<?= $post; ?>'>
-    <?php if ($model->commentsAllowed()) : ?>
-        <?= $this->render('_comments', ['model' => $model]); ?>
-    <?php endif; ?>
-</m-list-view-item>
+<b-page :transparent="true">
+    <m-list-view-item :item='<?= $post; ?>'>
+        <?php if ($model->commentsAllowed()) : ?>
+            <?= $this->render('_comments', ['model' => $model]); ?>
+        <?php endif; ?>
+    </m-list-view-item>
+</b-page>

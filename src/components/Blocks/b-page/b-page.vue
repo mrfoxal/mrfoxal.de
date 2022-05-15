@@ -1,6 +1,6 @@
 <template>
   <div class="b-page" :class="classes">
-    <e-headline v-bind="headline" />
+    <e-headline v-if="headline" v-bind="headline" />
     <div v-if="text">
       {{ text }}
     </div>
