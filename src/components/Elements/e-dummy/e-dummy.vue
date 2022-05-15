@@ -1,6 +1,6 @@
 <template>
   <div class="e-dummy">
-    {{ example }}
+    It works. {{ example }}
   </div>
 </template>
 
