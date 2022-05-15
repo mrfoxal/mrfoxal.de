@@ -21,6 +21,7 @@
   width: 100%;
   height: 100%;
   padding: 34px;
+  box-sizing: border-box;
 
   @include breakpoint('s') {
     padding: 24px;

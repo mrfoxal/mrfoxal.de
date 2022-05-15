@@ -36,7 +36,7 @@ $postFilter = [
 
 $postFilter = json_encode($postFilter);
 
-$showPostFilter = $dataProvider->getTotalCount() >= 10;
+$showPostFilter = $dataProvider->getTotalCount() >= 5;
 
 ?>
 

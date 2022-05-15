@@ -59,5 +59,4 @@ export default {
 };
 </script>
 
-
 <style scoped lang="scss" src="./m-list-view-item.scss" />
