@@ -1,47 +1,48 @@
 <?php
 
-use yii\helpers\Url;
 use \yii\widgets\ListView;
 use yii\widgets\LinkPager;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\post\PostSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $page array */
 
-$this->title = \Yii::$app->params['site']['name'];
-
-$this->registerMetaTag(['name' => 'title', 'content' => \Yii::$app->params['site']['name']]);
-$this->registerMetaTag(['name' => 'description', 'content' => \Yii::$app->params['site']['description']]);
-$this->registerMetaTag(['name' => 'robots', 'content' => 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1']);
-
-$this->registerLinkTag(['rel' => 'canonical', 'href' => Url::to(\Yii::$app->params['site']['url'])]);
-
-$postFilter = [
-    [
-        'icon' => 'fa fa-clock',
-        'label' => 'Neu',
-        'url' => '/post/index',
-    ],
-    [
-        'icon' => 'fa fa-eye',
-        'label' => 'Beliebt',
-        'url' => '/post/index/1',
-    ],
-    [
-        'icon' => 'fa fa-comments',
-        'label' => 'Diskutiert',
-        'url' => '/post/index/2',
+$filter = [
+    'show' => $dataProvider->getTotalCount() >= 5,
+    'items' => [
+        [
+            'icon' => 'fa fa-clock',
+            'label' => 'Neu',
+            'url' => '/post/index',
+        ],
+        [
+            'icon' => 'fa fa-eye',
+            'label' => 'Beliebt',
+            'url' => '/post/index/1',
+        ],
+        [
+            'icon' => 'fa fa-comments',
+            'label' => 'Diskutiert',
+            'url' => '/post/index/2',
+        ],
     ],
 ];
 
-$postFilter = json_encode($postFilter);
+$this->title = $page['title'];
 
-$showPostFilter = $dataProvider->getTotalCount() >= 5;
+$this->registerMetaTag(['name' => 'title', 'content' => $page['meta']['title']]);
+$this->registerMetaTag(['name' => 'description', 'content' => $page['meta']['description']]);
+$this->registerMetaTag(['name' => 'robots', 'content' => $page['meta']['description']]);
+
+$this->registerLinkTag(['rel' => 'canonical', 'href' => $page['canonical']]);
+
+$headline = ['headline' => $page['headline'] ?? []];
 
 ?>
 
-<b-page :transparent="true" :list-view="true">
-    <m-material-filter v-if='<?= json_encode($showPostFilter); ?>' :items='<?= $postFilter ?>'></m-material-filter>
+<b-page v-bind='<?= json_encode($headline); ?>' :transparent="true" :list-view="true">
+    <m-material-filter v-if='<?= json_encode($filter['show']); ?>' :items='<?= json_encode($filter['items']) ?>'></m-material-filter>
 
     <?= ListView::widget([
             'dataProvider' => $dataProvider,

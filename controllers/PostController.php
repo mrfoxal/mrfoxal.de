@@ -29,7 +29,6 @@ use app\helpers\Text;
  */
 class PostController extends Controller
 {
-
     /**
      * Behaviors
      */
@@ -76,6 +75,15 @@ class PostController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'pagination' => $dataProvider->pagination,
+            'page' => [
+                'title' => Yii::$app->params['site']['name'],
+                'meta' => [
+                    'title' => Yii::$app->params['site']['name'],
+                    'description' => Yii::$app->params['site']['description'],
+                    'robots' => 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
+                ],
+                'canonical' => Url::to(Yii::$app->params['site']['url']),
+            ],
         ]);
     }
 
@@ -90,14 +98,11 @@ class PostController extends Controller
 
         $dataProvider = $searchModel->adminSearch(Yii::$app->request->queryParams);
 
-        return $this->render(
-            'admin',
-            [
-                'searchModel'  => $searchModel,
-                'dataProvider' => $dataProvider,
-                'pagination' => $dataProvider->pagination,
-            ]
-        );
+        return $this->render('admin', [
+            'searchModel'  => $searchModel,
+            'dataProvider' => $dataProvider,
+            'pagination' => $dataProvider->pagination,
+        ]);
     }
 
     /**
@@ -191,11 +196,23 @@ class PostController extends Controller
 
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('tag', [
+        return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'pagination' => $dataProvider->pagination,
-            'tag' => $tag
+            'page' => [
+                'title' => sprintf('Posts mit dem Tag: %s', $tag->name),
+                'headline' => [
+                    'title' => $tag->name,
+                    'icon' => 'fa fa-tags',
+                ],
+                'meta' => [
+                    'title' => $tag->name,
+                    'description' => $tag->name,
+                    'robots' => 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
+                ],
+                'canonical' => Url::to(['tag/' . $tag->slug], true),
+            ],
         ]);
     }
 
@@ -225,11 +242,23 @@ class PostController extends Controller
 
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('category', [
+        return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'pagination' => $dataProvider->pagination,
-            'category' => $category
+            'page' => [
+                'title' => sprintf('Posts aus der Kategorie: %s', $category->name),
+                'headline' => [
+                    'title' => $category->name,
+                    'icon' => 'fas fa-folder',
+                ],
+                'meta' => [
+                    'title' => $category->name,
+                    'description' => $category->name,
+                    'robots' => 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
+                ],
+                'canonical' => Url::to(['category/' . $category->slug], true),
+            ]
         ]);
     }
 
