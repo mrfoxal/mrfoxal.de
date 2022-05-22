@@ -7,8 +7,12 @@
 
   &--column {
     display: grid;
-    grid-template-columns: 0.2fr 1.8fr;
+    grid-template-columns: minmax(0,1fr);
     padding: 20px;
+
+    @include breakpoint('s') {
+      grid-template-columns: 0.2fr 1.8fr;
+    }
   }
 }
 
@@ -20,8 +24,13 @@
   border-top-left-radius: 10px;
 
   &--column {
-    min-width: 180px;
-    width: 180px;
+    width: 100%;
+
+    @include breakpoint('s') {
+      min-width: 180px;
+      width: 180px;
+    }
+
     border: 1px solid #ddd;
     padding: 10px;
   }
@@ -67,7 +76,13 @@
   }
 
   &--column {
-    padding-top: 0;
+    padding: 0;
+    padding-top: 20px;
+
+    @include breakpoint('s') {
+      padding: 20px;
+      padding-top: 0;
+    }
   }
 }
 
