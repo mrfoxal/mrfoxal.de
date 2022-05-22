@@ -3,6 +3,13 @@
   overflow-wrap: break-word;
   border-radius: 10px;
   margin-bottom: 20px;
+  box-sizing: border-box;
+
+  &--column {
+    display: grid;
+    grid-template-columns: 0.2fr 1.8fr;
+    padding: 20px;
+  }
 }
 
 .m-list-view-item__image {
@@ -11,6 +18,13 @@
   background-size: cover;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
+
+  &--column {
+    min-width: 180px;
+    width: 180px;
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
 }
 
 .m-list-view-item__image-overlay {
@@ -28,15 +42,41 @@
   }
 }
 
+.m-list-view-item__button {
+  margin-top: 20px;
+  width: 100%;
+}
+
 .m-list-view-item__title {
+  margin-top: 0;
   color: #fff;
   text-align: center;
   text-decoration: underline;
   text-decoration-color: $primar-color;
+
+  &--column {
+    margin-top: 0;
+  }
+}
+
+.m-list-view-item__content-wrapper {
+  padding: 20px;
+
+  a {
+    color: $primar-color;
+  }
+
+  &--column {
+    padding-top: 0;
+  }
 }
 
 .m-list-view-item__cuttext {
   padding: 20px;
+
+  &--column {
+    padding: 0;
+  }
 }
 
 .m-list-view-item__readmore {
@@ -47,6 +87,10 @@
 
   a {
     color: $primar-color;
+  }
+
+  &--column {
+    padding: 0;
   }
 }
 
@@ -59,12 +103,4 @@
 
 .m-list-view-item__footer .fa {
   margin: 0 5px 0 10px;
-}
-
-.m-list-view-item__content {
-  padding: 20px;
-
-  a {
-    color: $primar-color;
-  }
 }

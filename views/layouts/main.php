@@ -39,6 +39,7 @@ $logo = [
 // menu items
 
 $menuItems[] = ['label' => 'Blog', 'url' => Url::toRoute(['/post/index'])];
+$menuItems[] = ['label' => 'Deals', 'url' => Url::toRoute(['/post/deals'])];
 $menuItems[] = ['label' => 'Instagram', 'url' => 'https://www.instagram.com/mrfoxal/'];
 $menuItems[] = ['label' => 'Discord', 'url' => 'https://discord.gg/xaytsMJDzp'];
 

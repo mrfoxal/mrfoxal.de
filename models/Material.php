@@ -4,7 +4,6 @@ namespace app\models;
 
 use app\models\user\User;
 use yii\db\ActiveRecord;
-use yii\helpers\ArrayHelper;
 
 /**
  * Material model
@@ -16,12 +15,17 @@ class Material extends ActiveRecord
     /** @var int */
     public const MATERIAL_POST_ID = 1;
 
+    /** @var int */
+    public const MATERIAL_DEAL_ID = 2;
+
     /** @var string */
     public const MATERIAL_POST_NAME = 'Post';
+    public const MATERIAL_DEAL_NAME = 'Deal';
 
     /** @var array */
     public const MATERIAL_MAPPING = [
         self::MATERIAL_POST_ID => self::MATERIAL_POST_NAME,
+        self::MATERIAL_DEAL_ID => self::MATERIAL_DEAL_NAME,
     ];
 
     /** @var int Count of all comments */
@@ -29,14 +33,15 @@ class Material extends ActiveRecord
 
     /**
      * Count hits
-     *
-     * @param string $materialName
+     * 
+     * TODO: Refactor this
      *
      * @return void
      */
-    public function countHits(string $materialName): void
+    public function countHits(): void
     {
         global $_COOKIE;
+        $materialName = Material::MATERIAL_MAPPING[$this->type_id];
 
         $name_cookies = \Yii::$app->name . '-views-' . strtolower($materialName) . '-' . $this->id;
         $expire = 2592000; // days

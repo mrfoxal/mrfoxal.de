@@ -19,7 +19,7 @@
   display: grid;
   grid-template-columns: minmax(0,1fr);
   
-  @include breakpoint('s') {
+  @include breakpoint('m') {
     gap: 20px;
     grid-template-columns: repeat(2,1fr);
   }

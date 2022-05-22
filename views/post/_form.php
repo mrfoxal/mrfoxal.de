@@ -3,14 +3,16 @@
 use app\components\UserPermissions;
 use app\enums\AllowComments;
 use app\enums\PostStatus;
-use app\models\coin\Coin;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use yii\web\JsExpression;
 use kartik\select2\Select2;
+use kartik\depdrop\DepDrop;
 use app\assets\MarkdownEditorAsset;
+use app\models\category\Category;
+use app\models\Material;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\post\Post */
@@ -27,11 +29,9 @@ if (!is_array($model->form_tags) && !$model->isNewRecord) {
 ?>
 
 <div class="post-form">
-
     <?php $form = ActiveForm::begin(); ?>
 
     <div class="form-row">
-
         <div class="row">
             <div class="col">
                 <div class="form-group col-md-8">
@@ -44,24 +44,49 @@ if (!is_array($model->form_tags) && !$model->isNewRecord) {
                     <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
                 </div>
             </div>
-
         </div>
-
     </div>
 
     <div class="row">
-
         <div class="col">
-            <div class="form-group col-md-3">
-                <?= $form->field($model, 'category_id')->dropDownList(ArrayHelper::map(\app\models\category\Category::getAllCategories(\app\models\Material::MATERIAL_POST_ID), 'id', 'name'), ['prompt' => 'Wählen Sie eine Kategorie']); ?>
+            <div class="form-group col-md-4">
+                <?= $form->field($model, 'type_id')->dropDownList(Material::MATERIAL_MAPPING, ['id'=>'type-id']) ?>
             </div>
         </div>
 
         <div class="col">
-            <div class="form-group col-md-5">
+            <div class="form-group col-md-4">
+                <?= $form->field($model, 'category_id')->widget(DepDrop::class, [
+                    'data' => ArrayHelper::map(Category::getAllCategories($model->type_id ?? Material::MATERIAL_POST_ID), 'id', 'name'),
+                    'options' => ['id'=>'category-id'],
+                    'pluginOptions'=>[
+                        'depends'=>['type-id'],
+                        'placeholder' => 'Wählen Sie eine Kategorie',
+                        'url' => Url::to(['/post/categories-list'])
+                    ]
+                ]); ?>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="form-group col-md-4">
+                <?= $form->field($model, 'link')->textInput(['maxlength' => true]) ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <div class="col-md-6">
+                <?= $form->field($model, 'preview_img')->textInput(['maxlength' => true]) ?>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="form-group col-md-6">
                 <?php if (UserPermissions::canAdminPost()) : ?>
                     <?= $form->field($model, 'form_tags')->widget(
-                        Select2::classname(),
+                        Select2::class,
                         [
                             'options'       => [
                                 'placeholder' => 'Tag finden...',
@@ -102,14 +127,6 @@ if (!is_array($model->form_tags) && !$model->isNewRecord) {
     <div class="row">
         <div class="col">
             <div class="col-md-12">
-                <?= $form->field($model, 'preview_img')->textInput(['maxlength' => true]) ?>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <div class="col-md-12">
                 <?= $form->field(
                     $model,
                     'content',
@@ -124,7 +141,6 @@ if (!is_array($model->form_tags) && !$model->isNewRecord) {
     </div>
 
     <div class="row">
-
         <div class="col">
             <div class="form-group col-md-4">
                 <?= $form->field($model, 'status_id')->dropDownList(PostStatus::getList()) ?>
@@ -136,7 +152,6 @@ if (!is_array($model->form_tags) && !$model->isNewRecord) {
                 <?= $form->field($model, 'allow_comments')->dropDownList(AllowComments::getList()) ?>
             </div>
         </div>
-
     </div>
 
     <div class="row">
@@ -158,20 +173,15 @@ if (!is_array($model->form_tags) && !$model->isNewRecord) {
     </div>
 
     <div class="form-row">
-
         <div class="col">
-
             <div class="form-group">
                 <?= Html::submitButton(
                     'Speichern',
                     ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']
                 ) ?>
             </div>
-
         </div>
-
     </div>
 
     <?php ActiveForm::end(); ?>
-
 </div>

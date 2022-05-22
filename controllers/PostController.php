@@ -7,7 +7,6 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use yii\web\ForbiddenHttpException;
 use yii\helpers\HtmlPurifier;
 use yii\helpers\Markdown;
 use yii\helpers\Url;
@@ -37,11 +36,11 @@ class PostController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only'  => ['index', 'view', 'category', 'tag', 'create', 'admin', 'update', 'delete', 'rss'],
+                'only'  => ['index', 'view', 'category', 'tag', 'create', 'admin', 'update', 'delete', 'rss', 'deals'],
                 'rules' => [
                     [
                         'allow'   => true,
-                        'actions' => ['index', 'view', 'category', 'tag', 'rss'],
+                        'actions' => ['index', 'view', 'category', 'tag', 'rss', 'deals'],
                         'roles'   => ['?', '@'],
                     ],
                     [
@@ -61,13 +60,38 @@ class PostController extends Controller
     }
 
     /**
+     * List of categories
+     * TODO: move to category controller
+     */
+    public function actionCategoriesList() {
+        $request = Yii::$app->request;
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        
+        if ($request->post('depdrop_parents')) {
+            $parents = $request->post('depdrop_parents');
+
+            if ($parents !== null) {
+                $type_id = $parents[0];
+                $out = Category::getAllCategories($type_id);
+
+                return ['output'=>$out, 'selected'=>''];
+            }
+        }
+
+        return ['output'=>'', 'selected'=>''];
+    }
+
+    /**
      * Lists all posts
      *
      * @param int|null $id
      */
     public function actionIndex($id = null)
     {
-        $searchModel = new PostSearch(['sortBy' => (int) $id]);
+        $searchModel = new PostSearch([
+            'sortBy' => (int) $id,
+            'type_id' => Material::MATERIAL_POST_ID,
+        ]);
 
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -88,9 +112,41 @@ class PostController extends Controller
     }
 
     /**
+     * Lists all posts
+     *
+     * @param int|null $id
+     */
+    public function actionDeals($id = null)
+    {
+        $searchModel = new PostSearch([
+            'sortBy' => (int) $id,
+            'type_id' => Material::MATERIAL_DEAL_ID,
+        ]);
+
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'pagination' => $dataProvider->pagination,
+            'page' => [
+                'title' => 'Deals',
+                'headline' => [
+                    'title' => 'Deals',
+                    'icon' => 'fas fa-gift',
+                ],
+                'meta' => [
+                    'title' => 'Deals',
+                    'description' => 'Deals',
+                    'robots' => 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
+                ],
+                'canonical' => Url::to(['post/deals'], true),
+            ],
+        ]);
+    }
+
+    /**
      * Admin posts
-     * 
-     * @return string
      */
     public function actionAdmin()
     {
@@ -108,9 +164,7 @@ class PostController extends Controller
     /**
      * Show single post model
      *
-     * @param $slug
-     *
-     * @return string
+     * @param string $slug
      *
      * @throws NotFoundHttpException
      */
@@ -125,9 +179,23 @@ class PostController extends Controller
             throw new NotFoundHttpException();
         }
 
-        $model->countHits(Material::MATERIAL_POST_NAME);
+        $model->countHits();
 
-        return $this->render('view', ['model' => $model]);
+        $breadcrumbs = [
+            Material::MATERIAL_POST_ID => [
+                'label' => 'Posts',
+                'url' => '/post/index',
+            ],
+            Material::MATERIAL_DEAL_ID => [
+                'label' => 'Deals',
+                'url' => '/post/deals',
+            ],
+        ];
+
+        return $this->render('view', [
+            'model' => $model,
+            'breadcrumbs' => $breadcrumbs[$model->type_id],
+        ]);
     }
 
     /**
@@ -149,8 +217,6 @@ class PostController extends Controller
      * Updates an existing Post model
      *
      * @param integer $id
-     *
-     * @throws ForbiddenHttpException
      */
     public function actionUpdate(int $id)
     {
@@ -168,7 +234,7 @@ class PostController extends Controller
     /**
      * Deletes an existing Post model
      *
-     * @param integer $id
+     * @param int $id
      */
     public function actionDelete(int $id)
     {
@@ -179,6 +245,8 @@ class PostController extends Controller
 
     /**
      * Action tag
+     * 
+     * TODO: move to tag controller
      *
      * @param $tagName
      *
@@ -218,6 +286,8 @@ class PostController extends Controller
 
     /**
      * Action category
+     * 
+     * TODO: move to category controller
      *
      * @param $categoryName
      *
@@ -229,7 +299,6 @@ class PostController extends Controller
     {
         $category = Category::findOne([
             'slug' => $categoryName,
-            'material_id' => Material::MATERIAL_POST_ID
         ]);
 
         if (!$category) {
@@ -298,11 +367,9 @@ class PostController extends Controller
     /**
      * Finds the Post model based on its primary key value
      *
-     * If the model is not found, a 404 HTTP exception will be thrown
-     *
      * @param integer $id
      *
-     * @return Post the loaded model
+     * @return null|Post the loaded model
      *
      * @throws NotFoundHttpException if the model cannot be found
      */

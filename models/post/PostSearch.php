@@ -12,8 +12,10 @@ use app\enums\YesNo;
  */
 class PostSearch extends Post
 {
+    /** @var int */
     public const FILTER_BY_HITS = 1;
 
+    /** @var int */
     public const FILTER_BY_COMMENTS = 2;
 
     /** @var int */
@@ -31,7 +33,7 @@ class PostSearch extends Post
     public function rules()
     {
         return [
-            [['id', 'status_id', 'datecreate', 'dateupdate', 'category_id', 'user_id', 'hits', 'allow_comments'], 'integer'],
+            [['id', 'status_id', 'datecreate', 'dateupdate', 'category_id', 'user_id', 'hits', 'allow_comments', 'type_id'], 'integer'],
             [['title', 'content', 'tags', 'meta_description'], 'safe'],
         ];
     }
@@ -70,8 +72,12 @@ class PostSearch extends Post
             return $dataProvider;
         }
 
-        $query->andFilterWhere(['status_id' => PostStatus::STATUS_PUBLIC]);
-        $query->andFilterWhere(['show_post_details' => YesNo::YES]);
+        $query->andFilterWhere([
+            'type_id' => $this->type_id,
+            'status_id' => PostStatus::STATUS_PUBLIC,
+            'show_post_details' => YesNo::YES,
+        ]);
+        
         $query->andFilterWhere(['like', 'title', $this->title]);
 
         // Filter by tag id
@@ -127,13 +133,12 @@ class PostSearch extends Post
             return $dataProvider;
         }
 
-        $query->andFilterWhere(
-            [
-                'id'          => $this->id,
-                'status_id'   => $this->status_id,
-                'user_id'     => $this->user_id,
-            ]
-        );
+        $query->andFilterWhere([
+            'type_id'     => $this->type_id,
+            'id'          => $this->id,
+            'status_id'   => $this->status_id,
+            'user_id'     => $this->user_id,
+        ]);
 
         $query->andFilterWhere(['like', 'title', $this->title]);
 

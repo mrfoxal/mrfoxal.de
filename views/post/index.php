@@ -9,25 +9,31 @@ use yii\widgets\LinkPager;
 /* @var $page array */
 
 $filter = [
-    'show' => $dataProvider->getTotalCount() >= 5,
-    'items' => [
+    'show' => $dataProvider->getTotalCount() >= 2,
+    'items' => [],
+];
+
+$actionName = Yii::$app->controller->action->id;
+
+if (in_array($actionName, ['index', 'deals'])) {
+    $filter['items'] = [
         [
             'icon' => 'fa fa-clock',
             'label' => 'Neu',
-            'url' => '/post/index',
+            'url' => '/post/' . $actionName,
         ],
         [
             'icon' => 'fa fa-eye',
             'label' => 'Beliebt',
-            'url' => '/post/index/1',
+            'url' => '/post/' . $actionName . '/1',
         ],
         [
             'icon' => 'fa fa-comments',
             'label' => 'Diskutiert',
-            'url' => '/post/index/2',
+            'url' => '/post/' . $actionName . '/2',
         ],
-    ],
-];
+    ];
+}
 
 $this->title = $page['title'];
 
@@ -46,7 +52,6 @@ $headline = ['headline' => $page['headline'] ?? []];
 
     <?= ListView::widget([
             'dataProvider' => $dataProvider,
-            'emptyText' => 'Es wurden keine Posts gefunden.',
             'itemView' => '_view',
             'layout' => "{items}",
         ]);

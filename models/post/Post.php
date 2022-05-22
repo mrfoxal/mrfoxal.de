@@ -29,6 +29,8 @@ use app\models\Tag;
  * @property integer $category_id
  * @property integer $show_share_buttons
  * @property integer $show_post_details
+ * @property integer $type_id
+ * @property string  $link
  *
  * relations
  * @property Tag[] $tags
@@ -54,7 +56,7 @@ class Post extends Material
     {
         return [
             [['title', 'content', 'datecreate', 'dateupdate', 'user_id', 'hits', 'category_id'], 'required'],
-            [['content', 'slug', 'preview_img'], 'string'],
+            [['content', 'slug', 'preview_img', 'link'], 'string'],
             [
                 [
                     'datecreate',
@@ -64,6 +66,7 @@ class Post extends Material
                     'category_id',
                     'show_share_buttons',
                     'show_post_details',
+                    'type_id',
                 ],
                 'integer'
             ],
@@ -95,6 +98,8 @@ class Post extends Material
             'show_share_buttons',
             'show_post_details',
             'preview_img',
+            'type_id',
+            'link',
         ];
 
         return $scenarios;
@@ -122,6 +127,8 @@ class Post extends Material
             'show_share_buttons' => 'Block "Teilen" anzeigen',
             'show_post_details'  => 'Details anzeigen',
             'preview_img'        => 'Vorschaubild',
+            'type_id'            => 'Type',
+            'link'               => 'Link',
         ];
     }
 
@@ -187,8 +194,7 @@ class Post extends Material
      */
     public function getCategory()
     {
-        return $this->hasOne(Category::class, ['id' => 'category_id'])
-                    ->andOnCondition(['material_id' => Material::MATERIAL_POST_ID]);
+        return $this->hasOne(Category::class, ['id' => 'category_id'])->andOnCondition(['material_id' => $this->type_id]);
     }
 
     /**

@@ -6,6 +6,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\widgets\LinkPager;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\post\PostSearch */
@@ -39,6 +40,13 @@ $page = [
             'columns'      => [
                 ['class' => 'yii\grid\SerialColumn'],
                 'title',
+                [
+                    'attribute' => 'type_id',
+                    'filter' => \app\models\Material::MATERIAL_MAPPING,
+                    'value' => function ($model) {
+                        return ArrayHelper::getValue(\app\models\Material::MATERIAL_MAPPING, $model->type_id);
+                    },
+                ],
                 [
                     'attribute' => 'status_id',
                     'filter' => PostStatus::getList(),

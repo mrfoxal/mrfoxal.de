@@ -6,13 +6,14 @@ use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
 use yii\helpers\Markdown;
 use yii\helpers\Url;
+use app\models\Material;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\post\Post */
 
 $this->title = Html::encode($model->title);
 
-$this->params['breadcrumbs'][] = ['label' => 'Posts', 'url' => ['/post/index']];
+$this->params['breadcrumbs'][] = $breadcrumbs;
 $this->params['breadcrumbs'][] = $this->title;
 
 $this->registerMetaTag(['name' => 'title', 'content' => $model->title]);
@@ -68,6 +69,7 @@ $post = [
     'created' => date('d.m.Y', $model->datecreate),
     'showDetails' => $model->show_post_details,
     'showShareButtons' => $model->show_share_buttons,
+    'link' => $model->link,
 ];
 
 if (isset($model->category->name)) {
@@ -84,10 +86,12 @@ if (!empty($model->tags)) {
 
 $post = json_encode($post);
 
+$layout = json_encode($model->type_id === Material::MATERIAL_POST_ID ? 'row' : 'column');
+
 ?>
 
 <b-page :transparent="true">
-    <m-list-view-item :item='<?= $post; ?>'>
+    <m-list-view-item :layout='<?= $layout; ?>' :item='<?= $post; ?>'>
         <?php if ($model->commentsAllowed()) : ?>
             <?= $this->render('_comments', ['model' => $model]); ?>
         <?php endif; ?>

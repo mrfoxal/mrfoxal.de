@@ -21,7 +21,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                '<_a:(login|logout|signup|request-password-reset|reset-password|search)>' => 'site/<_a>',
+                '<_a:(login|logout|signup|request-password-reset|reset-password)>' => 'site/<_a>',
                 '<_c:[\w\-]+>/<id:\d+>' => '<_c>/view',
                 '<_c:[\w\-]+>/update/<id:\d+>' => '<_c>/update',
                 '<_c:[\w\-]+>/delete/<id:\d+>' => '<_c>/delete',
